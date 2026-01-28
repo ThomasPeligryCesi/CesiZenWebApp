@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "target": "ES2023",
+    "strict": true,
+    "esModuleInterop": true,
+    "rootDir": "src" /* Specify the root folder within your source files. */,
+    "outDir": "build" /* Specify an output folder for all emitted files. */
+  },
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "prisma",
+    "generated"
+  ]
+}
