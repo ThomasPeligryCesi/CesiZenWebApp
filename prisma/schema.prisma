@@ -14,20 +14,60 @@ datasource db {
 }
 
 model User {
-  id String     @id @default(uuid()) @db.Uuid
-  email String  @unique
+  id       String @id @default(uuid()) @db.Uuid
+  email    String @unique
   password String
-  role  String
-  state Int
+  role     String
+  state    Int
+
+  articles            Article[]
+  favoris             FavoriteArticles[]
+  favorisExercices    FavoriteExercices[]
 }
 
-model Article{
-  id        String   @id @default(uuid()) @db.Uuid
-  title     String
-  content   String
-  authorId  String   @db.Uuid
-  imgUrl    String?
-  published DateTime @default(now())
-  status    Int
+model Article {
+  id          String   @id @default(uuid()) @db.Uuid
+  title       String
+  content     String
+  authorId    String   @db.Uuid
+  imgUrl      String?
+  published   DateTime @default(now())
+  status      Int
   readingTime Int
+
+  author  User      @relation(fields: [authorId], references: [id])
+  favoris FavoriteArticles[]
+}
+
+model FavoriteArticles {
+  userId    String @db.Uuid
+  articleId String @db.Uuid
+
+  user    User    @relation(fields: [userId], references: [id])
+  article Article @relation(fields: [articleId], references: [id])
+
+  @@id([userId, articleId])
+}
+
+model BreathingExercise {
+  id          String  @id @default(uuid()) @db.Uuid
+  name        String
+  imgUrl      String?
+  videoUrl    String?
+  duration    Int
+  benefits    String?
+  level       Int
+  description String
+
+  favorisExercices FavoriteExercices[]
+}
+
+model FavoriteExercices {
+  userId     String @db.Uuid
+  exerciceId String @db.Uuid
+
+  user     User              @relation(fields: [userId], references: [id])
+  exercice BreathingExercise @relation(fields: [exerciceId], references: [id])
+
+  @@id([userId, exerciceId])
 }
