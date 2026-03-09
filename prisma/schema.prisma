@@ -22,7 +22,7 @@ model User {
 
   articles            Article[]
   favoris             FavoriteArticles[]
-  favorisExercices    FavoriteExercices[]
+  favorisExercices    FavoriteExercises[]
 }
 
 model Article {
@@ -59,15 +59,15 @@ model BreathingExercise {
   level       Int
   description String
 
-  favorisExercices FavoriteExercices[]
+  favorisExercices FavoriteExercises[]
 }
 
-model FavoriteExercices {
+model FavoriteExercises {
   userId     String @db.Uuid
-  exerciceId String @db.Uuid
+  exerciseId String @db.Uuid
 
   user     User              @relation(fields: [userId], references: [id])
-  exercice BreathingExercise @relation(fields: [exerciceId], references: [id])
+  exercise BreathingExercise @relation(fields: [exerciseId], references: [id])
 
-  @@id([userId, exerciceId])
+  @@id([userId, exerciseId])
 }
