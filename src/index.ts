@@ -20,7 +20,7 @@ app.use("/api/exercises", exerciseRoutes);
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   console.error(err.stack);
-  res.status(500).json({ error: "Erreur interne du serveur" });
+  res.status(500).json({ error: "Erreur interne du serveur", "status": 500});
 });
 
 app.get('/', (req, res) => {
