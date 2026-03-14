@@ -1,5 +1,5 @@
 import {Request, Response, NextFunction} from 'express';
-import {verify} from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
  export const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
 
     const authorization = req.headers.authorization;
@@ -8,7 +8,7 @@ import {verify} from 'jsonwebtoken';
         return res.status(401).json({message: 'No token provided'});
     }
     try {
-        const decoded = verify(token, process.env.JWT_SECRET as string);
+        const decoded = jwt.verify(token, process.env.JWT_SECRET as string);
         if(typeof decoded === 'string') {
             return res.status(401).json({
                 message: 'Invalid token',
