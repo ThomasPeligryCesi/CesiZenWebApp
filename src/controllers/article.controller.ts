@@ -16,6 +16,14 @@ export const  create = async (req: Request, res: Response, next: NextFunction) =
    }
 }
 
+export const getArticlePage = async(req: Request<{page: number, limit: number}>, res: Response, next: NextFunction) => {
+    try{
+        const article = await articleService.getArticlePage(req.params.page, req.params.limit)
+        res.status(200).json(article)
+    } catch (error){
+        next(error)
+    }
+}
 
 export const  getAll = async (req: Request, res: Response, next: NextFunction) => {
     try { 
