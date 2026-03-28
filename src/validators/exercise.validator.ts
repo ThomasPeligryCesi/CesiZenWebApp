@@ -8,6 +8,7 @@ export const createExerciseSchema  = z.object({
     duration: z.number().int(),
     benefits: z.string().optional(),
     level: z.number().int(),
-    description: z.string()
+    description: z.string(),
+    steps: z.array(z.number().int())
 });
  export const updateExerciseSchema = createExerciseSchema.partial();

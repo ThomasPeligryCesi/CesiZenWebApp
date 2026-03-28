@@ -58,6 +58,7 @@ model BreathingExercise {
   benefits    String?
   level       Int
   description String
+  steps       Int[]
 
   favorisExercices FavoriteExercises[]
 }
