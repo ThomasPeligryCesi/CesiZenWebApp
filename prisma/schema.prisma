@@ -14,7 +14,61 @@ datasource db {
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
+  id       String @id @default(uuid()) @db.Uuid
+  email    String @unique
+  password String
+  role     String
+  state    Int
+
+  articles            Article[]
+  favoris             FavoriteArticles[]
+  favorisExercices    FavoriteExercises[]
+}
+
+model Article {
+  id          String   @id @default(uuid()) @db.Uuid
+  title       String
+  content     String
+  authorId    String   @db.Uuid
+  imgUrl      String?
+  published   DateTime @default(now())
+  status      Int
+  readingTime Int
+
+  author  User      @relation(fields: [authorId], references: [id])
+  favoris FavoriteArticles[]
+}
+
+model FavoriteArticles {
+  userId    String @db.Uuid
+  articleId String @db.Uuid
+
+  user    User    @relation(fields: [userId], references: [id])
+  article Article @relation(fields: [articleId], references: [id])
+
+  @@id([userId, articleId])
+}
+
+model BreathingExercise {
+  id          String  @id @default(uuid()) @db.Uuid
+  name        String
+  imgUrl      String?
+  videoUrl    String?
+  duration    Int
+  benefits    String?
+  level       Int
+  description String
+  steps       Int[]
+
+  favorisExercices FavoriteExercises[]
+}
+
+model FavoriteExercises {
+  userId     String @db.Uuid
+  exerciseId String @db.Uuid
+
+  user     User              @relation(fields: [userId], references: [id])
+  exercise BreathingExercise @relation(fields: [exerciseId], references: [id])
+
+  @@id([userId, exerciseId])
 }
