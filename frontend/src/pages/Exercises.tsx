@@ -1,4 +1,4 @@
-import { useState, useEffect, FormEvent } from 'react';
+import React, { useState, useEffect } from 'react';
 import { apiFetch } from '../utils/apiFetch';
 
 interface Exercise {
@@ -44,7 +44,7 @@ export default function Exercises() {
     });
   }
 
-  async function handleSubmit(e: FormEvent) {
+  async function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
     const body = {
       name: form.name,

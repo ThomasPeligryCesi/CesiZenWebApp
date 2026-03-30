@@ -1,4 +1,4 @@
-import { useState, useEffect, FormEvent } from 'react';
+import React, { useState, useEffect } from 'react';
 import { apiFetch } from '../utils/apiFetch';
 
 interface Article {
@@ -32,7 +32,7 @@ export default function Articles() {
     setForm({ title: a.title, content: a.content, imgUrl: a.imgUrl || '', status: a.status, readingTime: a.readingTime });
   }
 
-  async function handleSubmit(e: FormEvent) {
+  async function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
     const body = { ...form, imgUrl: form.imgUrl || undefined };
     if (editing) {

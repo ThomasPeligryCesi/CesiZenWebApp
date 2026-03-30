@@ -1,11 +1,11 @@
-import { useState, FormEvent } from 'react';
+import React, { useState } from 'react';
 
 export default function Login({ onLogin }: { onLogin: (token: string) => void }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  async function handleSubmit(e: FormEvent) {
+  async function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
     setError('');
     try {
