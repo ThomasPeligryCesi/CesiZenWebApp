@@ -4,6 +4,8 @@ import Login from './pages/Login';
 import Articles from './pages/Articles';
 import Exercises from './pages/Exercises';
 import Users from './pages/Users';
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
 
 function Nav({ isLoggedIn, onLogout }: { isLoggedIn: boolean; onLogout: () => void }) {
   if (!isLoggedIn) return null;
@@ -37,7 +39,16 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'));
 
   function handleLogout() {
+    const refreshToken = localStorage.getItem('refreshToken');
+    if (refreshToken) {
+      fetch('/api/auth/logout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ refreshToken }),
+      });
+    }
     localStorage.removeItem('token');
+    localStorage.removeItem('refreshToken');
     setIsLoggedIn(false);
   }
 
@@ -46,6 +57,8 @@ function App() {
       <Nav isLoggedIn={isLoggedIn} onLogout={handleLogout} />
       <Routes>
         <Route path="/login" element={isLoggedIn ? <Navigate to="/articles" /> : <LoginWrapper onLogin={() => setIsLoggedIn(true)} />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/articles" element={<ProtectedRoute isLoggedIn={isLoggedIn}><Articles /></ProtectedRoute>} />
         <Route path="/exercises" element={<ProtectedRoute isLoggedIn={isLoggedIn}><Exercises /></ProtectedRoute>} />
         <Route path="/users" element={<ProtectedRoute isLoggedIn={isLoggedIn}><Users /></ProtectedRoute>} />
