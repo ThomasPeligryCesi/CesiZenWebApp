@@ -5,18 +5,23 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon -L -e ts --exec \"npx tsx src/index.ts\""
+    "dev": "nodemon -L -e ts --exec \"npx tsx src/index.ts\" "
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
+  "prisma": {
+    "seed": "npx tsx prisma/seed.ts"
+  },
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/jsonwebtoken": "^9.0.10",
+    "@types/multer": "^2.1.0",
     "@types/node": "^25.0.10",
+    "@types/nodemailer": "^7.0.11",
     "@types/pg": "^8.16.0",
     "prisma": "^7.3.0",
     "tsx": "^4.21.0",
@@ -29,7 +34,10 @@
     "cors": "^2.8.6",
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
+    "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.3",
+    "multer": "^2.1.1",
+    "nodemailer": "^8.0.4",
     "nodemon": "^3.1.11",
     "pg": "^8.17.2",
     "zod": "^4.3.6"
