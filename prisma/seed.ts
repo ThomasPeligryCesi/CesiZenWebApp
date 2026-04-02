@@ -115,7 +115,7 @@ async function main() {
       {
         name: "Respiration 7-4-8",
         description: "Technique de relaxation profonde. Inspirez pendant 7 secondes, maintenez l'apnée pendant 4 secondes, puis expirez lentement pendant 8 secondes. Idéale pour favoriser l'endormissement et réduire l'anxiété.",
-        duration: 300,
+        duration: 9,
         level: 2,
         steps: [7, 4, 8],
         benefits: "Réduit l'anxiété, favorise l'endormissement, calme le système nerveux",
@@ -123,7 +123,7 @@ async function main() {
       {
         name: "Respiration 5-5",
         description: "Respiration équilibrée sans apnée. Inspirez pendant 5 secondes puis expirez pendant 5 secondes. Simple et efficace pour retrouver son calme rapidement.",
-        duration: 180,
+        duration: 6,
         level: 1,
         steps: [5, 0, 5],
         benefits: "Réduit le stress, facile à pratiquer, accessible aux débutants",
@@ -131,7 +131,7 @@ async function main() {
       {
         name: "Respiration 4-6",
         description: "Respiration apaisante avec une expiration plus longue que l'inspiration. Inspirez pendant 4 secondes puis expirez pendant 6 secondes. L'expiration prolongée active le système nerveux parasympathique.",
-        duration: 180,
+        duration: 6,
         level: 1,
         steps: [4, 0, 6],
         benefits: "Active le système parasympathique, apaise le rythme cardiaque",
