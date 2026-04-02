@@ -8,8 +8,8 @@ export const  create = async (req: Request, res: Response, next: NextFunction) =
         if( !result.success ) {
             return res.status(400).json({ error: "Validation failed", issues: result.error.issues });
         }
-        const {name, imgUrl, videoUrl, duration, benefits, level, description, steps } = result.data;
-        const exercise = await exerciseService.createExercise({name, imgUrl, videoUrl, duration, benefits, level, description, steps });
+        const {name, videoUrl, duration, benefits, level, description, steps } = result.data;
+        const exercise = await exerciseService.createExercise({name, videoUrl, duration, benefits, level, description, steps });
         res.status(201).json(exercise);
     } catch (error) {
             next(error);
@@ -41,8 +41,8 @@ export const update = async  (req: Request<{id: string}>, res: Response, next: N
         if( !result.success ) {
             return res.status(400).json({ error: "Validation failed", issues: result.error.issues });
         }
-        const {name, imgUrl, videoUrl, duration, benefits, level, description, steps  } = result.data;
-        const exercise = await exerciseService.updateExercise({name, imgUrl, videoUrl, duration, benefits, level, description, steps }, req.params.id )
+        const {name, videoUrl, duration, benefits, level, description, steps  } = result.data;
+        const exercise = await exerciseService.updateExercise({name, videoUrl, duration, benefits, level, description, steps }, req.params.id )
         res.status(200).json(exercise)
     } catch(error){
         next(error)

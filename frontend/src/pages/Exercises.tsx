@@ -4,7 +4,6 @@ import { apiFetch } from '../utils/apiFetch';
 interface Exercise {
   id: string;
   name: string;
-  imgUrl?: string;
   videoUrl?: string;
   duration: number;
   benefits?: string;
@@ -16,7 +15,7 @@ interface Exercise {
 export default function Exercises() {
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [editing, setEditing] = useState<Exercise | null>(null);
-  const [form, setForm] = useState({ name: '', imgUrl: '', videoUrl: '', duration: 60, benefits: '', level: 1, description: '', steps: '4,4,4' });
+  const [form, setForm] = useState({ name: '', videoUrl: '', duration: 60, benefits: '', level: 1, description: '', steps: '4,4,4' });
 
   async function loadExercises() {
     const res = await apiFetch('/api/exercises');
@@ -26,7 +25,7 @@ export default function Exercises() {
   useEffect(() => { loadExercises(); }, []);
 
   function resetForm() {
-    setForm({ name: '', imgUrl: '', videoUrl: '', duration: 60, benefits: '', level: 1, description: '', steps: '4,4,4' });
+    setForm({ name: '', videoUrl: '', duration: 60, benefits: '', level: 1, description: '', steps: '4,4,4' });
     setEditing(null);
   }
 
@@ -34,7 +33,6 @@ export default function Exercises() {
     setEditing(ex);
     setForm({
       name: ex.name,
-      imgUrl: ex.imgUrl || '',
       videoUrl: ex.videoUrl || '',
       duration: ex.duration,
       benefits: ex.benefits || '',
@@ -46,20 +44,19 @@ export default function Exercises() {
 
   async function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
-    const body = {
+    const body: Record<string, unknown> = {
       name: form.name,
       duration: form.duration,
       level: form.level,
       description: form.description,
       steps: form.steps.split(',').map(Number),
-      imgUrl: form.imgUrl || undefined,
-      videoUrl: form.videoUrl || undefined,
-      benefits: form.benefits || undefined,
     };
+    if (form.videoUrl) body.videoUrl = form.videoUrl;
+    if (form.benefits) body.benefits = form.benefits;
     if (editing) {
-      await apiFetch(`/api/exercises/${editing.id}`, { method: 'PUT', body: JSON.stringify(body) });
+      await apiFetch(`/api/exercises/${editing.id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
     } else {
-      await apiFetch('/api/exercises', { method: 'POST', body: JSON.stringify(body) });
+      await apiFetch('/api/exercises', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
     }
     resetForm();
     loadExercises();
@@ -102,15 +99,9 @@ export default function Exercises() {
           <label>Bienfaits (optionnel)</label>
           <input value={form.benefits} onChange={e => setForm({ ...form, benefits: e.target.value })} />
         </div>
-        <div className="row">
-          <div className="field" style={{ flex: 1 }}>
-            <label>Image URL (optionnel)</label>
-            <input value={form.imgUrl} onChange={e => setForm({ ...form, imgUrl: e.target.value })} />
-          </div>
-          <div className="field" style={{ flex: 1 }}>
-            <label>Vidéo URL (optionnel)</label>
-            <input value={form.videoUrl} onChange={e => setForm({ ...form, videoUrl: e.target.value })} />
-          </div>
+        <div className="field">
+          <label>Vidéo URL (optionnel)</label>
+          <input value={form.videoUrl} onChange={e => setForm({ ...form, videoUrl: e.target.value })} />
         </div>
         <div style={{ display: 'flex', gap: 8 }}>
           <button type="submit" className="primary">{editing ? 'Modifier' : 'Créer'}</button>

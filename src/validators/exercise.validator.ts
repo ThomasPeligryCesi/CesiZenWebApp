@@ -4,7 +4,6 @@ import { stripHtml, isSafeUrl } from "../utils/sanitize";
 
 export const createExerciseSchema  = z.object({
     name: z.string().max(255).transform(stripHtml),
-    imgUrl: z.string().refine(isSafeUrl, { message: "URL non autorisée" }).optional(),
     videoUrl: z.string().refine(isSafeUrl, { message: "URL non autorisée" }).optional(),
     duration: z.coerce.number().int(),
     benefits: z.string().max(1000).transform(stripHtml).optional(),
