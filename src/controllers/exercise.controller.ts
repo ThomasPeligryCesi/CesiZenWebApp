@@ -63,7 +63,10 @@ export const addFavorite = async (req: Request<{exerciseId: string}>, res: Respo
     try{
         const exercise = await exerciseService.addFavorite(res.locals.userId, req.params.exerciseId)
         res.status(201).send();
-    } catch (error){
+    } catch (error: any){
+        if (error?.code === "P2002") {
+            return res.status(409).json({ error: "Exercice déjà en favori" });
+        }
         next(error)
     }
 }

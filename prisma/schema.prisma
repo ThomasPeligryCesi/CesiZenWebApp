@@ -17,8 +17,9 @@ model User {
   id       String @id @default(uuid()) @db.Uuid
   email    String @unique
   password String
-  role     String
-  state    Int
+  role            String
+  state           Int
+  lastConnexion   DateTime?
 
   articles            Article[]
   favoris             FavoriteArticles[]

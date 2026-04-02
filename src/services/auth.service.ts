@@ -28,6 +28,10 @@ async function generateRefreshToken(userId: string) {
   await prisma.refreshToken.create({
     data: { token, userId, expiresAt },
   });
+  await prisma.user.update({
+    where: { id: userId },
+    data: { lastConnexion: new Date() },
+  });
   return token;
 }
 

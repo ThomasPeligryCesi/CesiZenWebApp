@@ -54,15 +54,24 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Nav isLoggedIn={isLoggedIn} onLogout={handleLogout} />
       <Routes>
-        <Route path="/login" element={isLoggedIn ? <Navigate to="/articles" /> : <LoginWrapper onLogin={() => setIsLoggedIn(true)} />} />
+        {/* Pages publiques sans header */}
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
-        <Route path="/articles" element={<ProtectedRoute isLoggedIn={isLoggedIn}><Articles /></ProtectedRoute>} />
-        <Route path="/exercises" element={<ProtectedRoute isLoggedIn={isLoggedIn}><Exercises /></ProtectedRoute>} />
-        <Route path="/users" element={<ProtectedRoute isLoggedIn={isLoggedIn}><Users /></ProtectedRoute>} />
-        <Route path="*" element={<Navigate to="/articles" />} />
+        <Route path="/login" element={isLoggedIn ? <Navigate to="/articles" /> : <LoginWrapper onLogin={() => setIsLoggedIn(true)} />} />
+
+        {/* Backoffice avec header */}
+        <Route path="*" element={
+          <>
+            <Nav isLoggedIn={isLoggedIn} onLogout={handleLogout} />
+            <Routes>
+              <Route path="/articles" element={<ProtectedRoute isLoggedIn={isLoggedIn}><Articles /></ProtectedRoute>} />
+              <Route path="/exercises" element={<ProtectedRoute isLoggedIn={isLoggedIn}><Exercises /></ProtectedRoute>} />
+              <Route path="/users" element={<ProtectedRoute isLoggedIn={isLoggedIn}><Users /></ProtectedRoute>} />
+              <Route path="*" element={<Navigate to="/articles" />} />
+            </Routes>
+          </>
+        } />
       </Routes>
     </BrowserRouter>
   );
