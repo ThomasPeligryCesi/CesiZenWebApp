@@ -195,3 +195,88 @@ tr:last-child td {
   font-size: 0.9em;
   margin-bottom: 12px;
 }
+
+/* Responsive */
+@media (max-width: 768px) {
+  nav {
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 12px 16px;
+  }
+
+  nav strong {
+    width: 100%;
+    margin-bottom: 4px;
+  }
+
+  nav button {
+    margin-left: 0;
+  }
+
+  .page {
+    margin: 20px auto;
+    padding: 0 12px;
+  }
+
+  .form-card {
+    padding: 16px;
+  }
+
+  .row {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  th, td {
+    padding: 8px 10px;
+    font-size: 0.85em;
+  }
+
+  .login-container {
+    margin: 60px auto;
+    padding: 0 16px;
+  }
+
+  .login-card {
+    padding: 24px 20px;
+  }
+
+  h1 {
+    font-size: 1.3em;
+  }
+}
+
+@media (max-width: 480px) {
+  nav {
+    padding: 10px 12px;
+    font-size: 0.9em;
+  }
+
+  .page {
+    padding: 0 8px;
+  }
+
+  .form-card {
+    padding: 12px;
+  }
+
+  th, td {
+    padding: 6px 8px;
+    font-size: 0.8em;
+  }
+
+  .login-container {
+    margin: 40px auto;
+  }
+
+  button {
+    padding: 8px 14px;
+    font-size: 0.85em;
+  }
+}
