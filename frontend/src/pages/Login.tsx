@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Login({ onLogin }: { onLogin: (token: string) => void }) {
   const [email, setEmail] = useState('');
@@ -19,6 +20,11 @@ export default function Login({ onLogin }: { onLogin: (token: string) => void })
         setError(data.error || 'Erreur de connexion');
         return;
       }
+      if (data.role !== 'admin') {
+        setError('Accès réservé aux administrateurs');
+        return;
+      }
+      localStorage.setItem('refreshToken', data.refreshToken);
       onLogin(data.token);
     } catch {
       setError('Erreur réseau');
@@ -41,6 +47,9 @@ export default function Login({ onLogin }: { onLogin: (token: string) => void })
           {error && <p className="error">{error}</p>}
           <button type="submit" className="primary" style={{ width: '100%' }}>Se connecter</button>
         </form>
+        <p style={{ marginTop: '16px', textAlign: 'center' }}>
+          <Link to="/forgot-password">Mot de passe oublié ?</Link>
+        </p>
       </div>
     </div>
   );
