@@ -3,13 +3,14 @@ import {updateArticleSchema, createArticleSchema} from "../validators/article.va
 import * as articleService from '../services/article.service'
 
 export const  create = async (req: Request, res: Response, next: NextFunction) => {
-    try { 
+    try {
         const result = createArticleSchema.safeParse(req.body);
         if( !result.success ) {
             return res.status(400).json({ error: "Validation failed", issues: result.error.issues });
         }
         const {title, content, imgUrl, status, readingTime } = result.data;
-        const article = await articleService.createArticle({title, content, imgUrl, status, readingTime }, res.locals.userId);
+        const finalImgUrl = req.file ? `/uploads/${req.file.filename}` : imgUrl;
+        const article = await articleService.createArticle({title, content, imgUrl: finalImgUrl, status, readingTime }, res.locals.userId);
         res.status(201).json(article);
     } catch (error) {
             next(error);
@@ -52,7 +53,8 @@ export const update = async  (req: Request<{id: string}>, res: Response, next: N
             return res.status(400).json({ error: "Validation failed", issues: result.error.issues });
         }
         const {title, content, imgUrl, status, readingTime } = result.data;
-        const article = await articleService.updateArticle({title, content, imgUrl, status, readingTime }, req.params.id )
+        const finalImgUrl = req.file ? `/uploads/${req.file.filename}` : imgUrl;
+        const article = await articleService.updateArticle({title, content, imgUrl: finalImgUrl, status, readingTime }, req.params.id )
         res.status(200).json(article)
     } catch(error){
         next(error)
@@ -73,7 +75,10 @@ export const addFavorite = async (req: Request<{articleId: string}>, res: Respon
     try{
         const article = await articleService.addFavorite(res.locals.userId, req.params.articleId)
         res.status(201).send();
-    } catch (error){
+    } catch (error: any){
+        if (error?.code === 'P2002') {
+            return res.status(409).json({ error: "Article déjà en favoris" });
+        }
         next(error)
     }
 }

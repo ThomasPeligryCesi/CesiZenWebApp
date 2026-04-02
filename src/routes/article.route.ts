@@ -2,14 +2,15 @@ import { Router } from "express";
 import { getAll, getById, create, update, remove, getFavorites, addFavorite, removeFavorite, getArticlePage } from '../controllers/article.controller';
 import { authMiddleware } from "../middleware/auth.middleware";
 import { adminMiddleware } from "../middleware/admin.middleware";
+import { upload } from "../middleware/upload.middleware";
 const router = Router();
 
 // Define routes for authentication
 router.get("/", getAll);
-router.post("/", authMiddleware, adminMiddleware, create)
+router.post("/", authMiddleware, adminMiddleware, ...upload.single("image"), create)
 router.get("/page", getArticlePage)
 router.get("/favorites", authMiddleware, getFavorites)
-router.put("/:id", authMiddleware, adminMiddleware, update)
+router.put("/:id", authMiddleware, adminMiddleware, ...upload.single("image"), update)
 router.post("/favorites/:articleId", authMiddleware, addFavorite)
 router.delete("/favorites/:articleId", authMiddleware, removeFavorite)
 router.delete("/:id", authMiddleware, adminMiddleware, remove)

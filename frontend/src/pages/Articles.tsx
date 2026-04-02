@@ -14,6 +14,7 @@ export default function Articles() {
   const [articles, setArticles] = useState<Article[]>([]);
   const [editing, setEditing] = useState<Article | null>(null);
   const [form, setForm] = useState({ title: '', content: '', imgUrl: '', status: 1, readingTime: 5 });
+  const [imageFile, setImageFile] = useState<File | null>(null);
 
   async function loadArticles() {
     const res = await apiFetch('/api/articles');
@@ -34,13 +35,23 @@ export default function Articles() {
 
   async function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
-    const body = { ...form, imgUrl: form.imgUrl || undefined };
+    const formData = new FormData();
+    formData.append('title', form.title);
+    formData.append('content', form.content);
+    formData.append('status', String(form.status));
+    formData.append('readingTime', String(form.readingTime));
+    if (imageFile) {
+      formData.append('image', imageFile);
+    } else if (form.imgUrl) {
+      formData.append('imgUrl', form.imgUrl);
+    }
     if (editing) {
-      await apiFetch(`/api/articles/${editing.id}`, { method: 'PUT', body: JSON.stringify(body) });
+      await apiFetch(`/api/articles/${editing.id}`, { method: 'PUT', body: formData });
     } else {
-      await apiFetch('/api/articles', { method: 'POST', body: JSON.stringify(body) });
+      await apiFetch('/api/articles', { method: 'POST', body: formData });
     }
     resetForm();
+    setImageFile(null);
     loadArticles();
   }
 
@@ -64,7 +75,11 @@ export default function Articles() {
           <textarea value={form.content} onChange={e => setForm({ ...form, content: e.target.value })} required />
         </div>
         <div className="field">
-          <label>Image URL (optionnel)</label>
+          <label>Image (fichier)</label>
+          <input type="file" accept="image/*" onChange={e => setImageFile(e.target.files?.[0] || null)} />
+        </div>
+        <div className="field">
+          <label>ou Image URL (optionnel)</label>
           <input value={form.imgUrl} onChange={e => setForm({ ...form, imgUrl: e.target.value })} />
         </div>
         <div className="row">
