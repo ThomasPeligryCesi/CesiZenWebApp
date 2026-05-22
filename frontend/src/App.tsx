@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { BrowserRouter, Routes, Route, Navigate, Link, useNavigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, Link, Outlet, useNavigate } from 'react-router-dom';
 import Login from './pages/Login';
 import Articles from './pages/Articles';
 import Exercises from './pages/Exercises';
@@ -7,8 +7,7 @@ import Users from './pages/Users';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
 
-function Nav({ isLoggedIn, onLogout }: { isLoggedIn: boolean; onLogout: () => void }) {
-  if (!isLoggedIn) return null;
+function Nav({ onLogout }: { onLogout: () => void }) {
   return (
     <nav>
       <strong>CesiZen Backoffice</strong>
@@ -20,9 +19,14 @@ function Nav({ isLoggedIn, onLogout }: { isLoggedIn: boolean; onLogout: () => vo
   );
 }
 
-function ProtectedRoute({ isLoggedIn, children }: { isLoggedIn: boolean; children: React.ReactNode }) {
+function ProtectedLayout({ isLoggedIn, onLogout }: { isLoggedIn: boolean; onLogout: () => void }) {
   if (!isLoggedIn) return <Navigate to="/login" />;
-  return <>{children}</>;
+  return (
+    <>
+      <Nav onLogout={onLogout} />
+      <Outlet />
+    </>
+  );
 }
 
 function LoginWrapper({ onLogin }: { onLogin: () => void }) {
@@ -61,17 +65,13 @@ function App() {
         <Route path="/login" element={isLoggedIn ? <Navigate to="/articles" /> : <LoginWrapper onLogin={() => setIsLoggedIn(true)} />} />
 
         {/* Backoffice avec header */}
-        <Route path="*" element={
-          <>
-            <Nav isLoggedIn={isLoggedIn} onLogout={handleLogout} />
-            <Routes>
-              <Route path="/articles" element={<ProtectedRoute isLoggedIn={isLoggedIn}><Articles /></ProtectedRoute>} />
-              <Route path="/exercises" element={<ProtectedRoute isLoggedIn={isLoggedIn}><Exercises /></ProtectedRoute>} />
-              <Route path="/users" element={<ProtectedRoute isLoggedIn={isLoggedIn}><Users /></ProtectedRoute>} />
-              <Route path="*" element={<Navigate to="/articles" />} />
-            </Routes>
-          </>
-        } />
+        <Route element={<ProtectedLayout isLoggedIn={isLoggedIn} onLogout={handleLogout} />}>
+          <Route path="/articles" element={<Articles />} />
+          <Route path="/exercises" element={<Exercises />} />
+          <Route path="/users" element={<Users />} />
+        </Route>
+
+        <Route path="*" element={<Navigate to="/articles" />} />
       </Routes>
     </BrowserRouter>
   );
