@@ -59,7 +59,7 @@ jobs:
             frontend/node_modules
           key: ${{ runner.os }}-node2-${{ hashFiles('**/package-lock.json') }}
           fail-on-cache-miss: 'true'
-      - run: cd frontend | npm run 
+      - run: cd frontend && npm run lint
 
 
   build-and-push-docker:
