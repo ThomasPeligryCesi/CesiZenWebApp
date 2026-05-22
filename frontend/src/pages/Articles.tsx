@@ -21,7 +21,9 @@ export default function Articles() {
     setArticles(await res.json());
   }
 
-  useEffect(() => { loadArticles(); }, []);
+  useEffect(() => {
+    apiFetch('/api/articles').then(r => r.json()).then(setArticles).catch(console.error);
+  }, []);
 
   function resetForm() {
     setForm({ title: '', content: '', imgUrl: '', status: 1, readingTime: 5 });

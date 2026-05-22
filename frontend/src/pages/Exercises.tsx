@@ -21,7 +21,9 @@ export default function Exercises() {
     setExercises(await res.json());
   }
 
-  useEffect(() => { loadExercises(); }, []);
+  useEffect(() => {
+    apiFetch('/api/exercises').then(r => r.json()).then(setExercises).catch(console.error);
+  }, []);
 
   function resetForm() {
     setForm({ name: '', duration: 60, benefits: '', level: 1, description: '', steps: '4,4,4' });

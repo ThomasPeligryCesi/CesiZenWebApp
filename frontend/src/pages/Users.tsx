@@ -16,7 +16,9 @@ export default function Users() {
     setUsers(await res.json());
   }
 
-  useEffect(() => { loadUsers(); }, []);
+  useEffect(() => {
+    apiFetch('/api/users').then(r => r.json()).then(setUsers).catch(console.error);
+  }, []);
 
   async function toggleRole(user: User) {
     const newRole = user.role === 'admin' ? 'user' : 'admin';
