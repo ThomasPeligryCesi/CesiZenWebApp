@@ -103,7 +103,7 @@ jobs:
 
   deploy-recette:
     runs-on: ubuntu-latest
-    needs: [lint]
+    needs: [lint-frontend]
     if: github.ref == 'refs/heads/developp'
     steps:
       - name: Configuration de la clé SSH
