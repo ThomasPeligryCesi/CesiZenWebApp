@@ -27,18 +27,6 @@ describe("createExerciseSchema", () => {
     }
   });
 
-  it("accepte avec videoUrl optionnel", () => {
-    const result = createExerciseSchema.safeParse({
-      name: "Exercice",
-      duration: 60,
-      level: 2,
-      description: "Desc",
-      steps: [5, 5],
-      videoUrl: "https://youtube.com/watch?v=123",
-    });
-    expect(result.success).toBe(true);
-  });
-
   it("accepte avec benefits optionnel", () => {
     const result = createExerciseSchema.safeParse({
       name: "Exercice",
@@ -67,18 +55,6 @@ describe("createExerciseSchema", () => {
       duration: 60,
       level: 1,
       description: "Desc",
-    });
-    expect(result.success).toBe(false);
-  });
-
-  it("refuse une videoUrl javascript:", () => {
-    const result = createExerciseSchema.safeParse({
-      name: "Exercice",
-      duration: 60,
-      level: 1,
-      description: "Desc",
-      steps: [4, 4],
-      videoUrl: "javascript:alert(1)",
     });
     expect(result.success).toBe(false);
   });

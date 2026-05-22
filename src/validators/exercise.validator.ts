@@ -1,10 +1,9 @@
 
 import { z } from "zod";
-import { stripHtml, isSafeUrl } from "../utils/sanitize";
+import { stripHtml } from "../utils/sanitize";
 
 export const createExerciseSchema  = z.object({
     name: z.string().max(255).transform(stripHtml),
-    videoUrl: z.string().refine(isSafeUrl, { message: "URL non autorisée" }).optional(),
     duration: z.coerce.number().int(),
     benefits: z.string().max(1000).transform(stripHtml).optional(),
     level: z.coerce.number().int(),

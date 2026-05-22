@@ -4,7 +4,6 @@ import { apiFetch } from '../utils/apiFetch';
 interface Exercise {
   id: string;
   name: string;
-  videoUrl?: string;
   duration: number;
   benefits?: string;
   level: number;
@@ -15,7 +14,7 @@ interface Exercise {
 export default function Exercises() {
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [editing, setEditing] = useState<Exercise | null>(null);
-  const [form, setForm] = useState({ name: '', videoUrl: '', duration: 60, benefits: '', level: 1, description: '', steps: '4,4,4' });
+  const [form, setForm] = useState({ name: '', duration: 60, benefits: '', level: 1, description: '', steps: '4,4,4' });
 
   async function loadExercises() {
     const res = await apiFetch('/api/exercises');
@@ -25,7 +24,7 @@ export default function Exercises() {
   useEffect(() => { loadExercises(); }, []);
 
   function resetForm() {
-    setForm({ name: '', videoUrl: '', duration: 60, benefits: '', level: 1, description: '', steps: '4,4,4' });
+    setForm({ name: '', duration: 60, benefits: '', level: 1, description: '', steps: '4,4,4' });
     setEditing(null);
   }
 
@@ -33,7 +32,6 @@ export default function Exercises() {
     setEditing(ex);
     setForm({
       name: ex.name,
-      videoUrl: ex.videoUrl || '',
       duration: ex.duration,
       benefits: ex.benefits || '',
       level: ex.level,
@@ -51,7 +49,6 @@ export default function Exercises() {
       description: form.description,
       steps: form.steps.split(',').map(Number),
     };
-    if (form.videoUrl) body.videoUrl = form.videoUrl;
     if (form.benefits) body.benefits = form.benefits;
     if (editing) {
       await apiFetch(`/api/exercises/${editing.id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
@@ -83,12 +80,12 @@ export default function Exercises() {
         </div>
         <div className="row">
           <div className="field" style={{ flex: 1 }}>
-            <label>Durée (secondes)</label>
+            <label>Durée (minutes)</label>
             <input type="number" value={form.duration} onChange={e => setForm({ ...form, duration: Number(e.target.value) })} />
           </div>
           <div className="field" style={{ flex: 1 }}>
             <label>Niveau</label>
-            <input type="number" value={form.level} onChange={e => setForm({ ...form, level: Number(e.target.value) })} />
+            <input type="number" value={form.level} max={3 } onChange={e => setForm({ ...form, level: Number(e.target.value) })} />
           </div>
           <div className="field" style={{ flex: 1 }}>
             <label>Steps (inspi,maintien,expi)</label>
@@ -98,10 +95,6 @@ export default function Exercises() {
         <div className="field">
           <label>Bienfaits (optionnel)</label>
           <input value={form.benefits} onChange={e => setForm({ ...form, benefits: e.target.value })} />
-        </div>
-        <div className="field">
-          <label>Vidéo URL (optionnel)</label>
-          <input value={form.videoUrl} onChange={e => setForm({ ...form, videoUrl: e.target.value })} />
         </div>
         <div style={{ display: 'flex', gap: 8 }}>
           <button type="submit" className="primary">{editing ? 'Modifier' : 'Créer'}</button>

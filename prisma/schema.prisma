@@ -64,7 +64,6 @@ model FavoriteArticles {
 model BreathingExercise {
   id          String  @id @default(uuid()) @db.Uuid
   name        String
-  videoUrl    String?
   duration    Int
   benefits    String?
   level       Int
