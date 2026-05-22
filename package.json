@@ -4,6 +4,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "build": "npx tsx",
     "test": "vitest run",
     "dev": "nodemon -L -e ts --exec \"npx tsx src/index.ts\" "
   },
