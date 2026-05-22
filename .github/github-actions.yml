@@ -40,11 +40,7 @@ jobs:
         with:
           path: |
             node_modules
-            .next
-            /home/runner/.cache/Cypress
-            Dockerfile
-            compose.prod.yml
-            compose.yml
+            frontend/node_modules
           key: ${{ runner.os }}-node2-${{ hashFiles('**/package-lock.json') }}
 
   lint:
@@ -60,8 +56,7 @@ jobs:
         with:
           path: |
             node_modules
-            .next
-            /home/runner/.cache/Cypress
+            frontend/node_modules
           key: ${{ runner.os }}-node2-${{ hashFiles('**/package-lock.json') }}
           fail-on-cache-miss: 'true'
       - run: npm run lint
@@ -87,7 +82,7 @@ jobs:
         run: |
           docker build --tag ghcr.io/${{ env.OWNER }}/next --target next ./
           docker push ghcr.io/${{ env.OWNER }}/next
-          
+
   deploy-recette:
     runs-on: ubuntu-latest
     needs: [lint, test]
