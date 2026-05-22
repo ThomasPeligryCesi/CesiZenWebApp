@@ -79,9 +79,10 @@ jobs:
         with:
           fetch-depth: 0
       - name: Build and Push Docker Image
-        run: |
-          docker build --tag ghcr.io/${{ env.OWNER }}/next --target next ./
-          docker push ghcr.io/${{ env.OWNER }}/next
+        uses : docker/build-push-action@v6
+        # run: |
+        #   docker build --tag ghcr.io/${{ env.OWNER }}/next --target next ./
+        #   docker push ghcr.io/${{ env.OWNER }}/next
 
   deploy-recette:
     runs-on: ubuntu-latest
