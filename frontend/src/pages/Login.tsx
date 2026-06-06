@@ -34,7 +34,7 @@ export default function Login({ onLogin }: { onLogin: (token: string) => void })
   return (
     <div className="login-container">
       <div className="login-card">
-        <h1>Backoffice CesiZen</h1>
+        <h1>Backoffice CesiZen Recette</h1>
         <form onSubmit={handleSubmit}>
           <div className="field">
             <label>Email</label>
