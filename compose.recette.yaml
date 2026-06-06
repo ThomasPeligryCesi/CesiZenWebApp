@@ -37,6 +37,15 @@ services:
     volumes:
       - uploads_data:/app/uploads
 
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
 volumes:
   postgres_data:
   uploads_data:
