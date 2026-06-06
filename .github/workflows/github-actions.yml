@@ -111,7 +111,7 @@ jobs:
       - name: Déploiement en recette
         run: |
           ssh ${{ secrets.AZURE_ID }}@${{ secrets.AZURE_IP }} << 'EOF'
-            cd recette/next-cda-devops
+            cd recette/CesiZenWebApp
             git fetch --all
             git checkout developp
             git pull origin developp
@@ -132,7 +132,7 @@ jobs:
       - name: Déploiement en production
         run: |
           ssh ${{ secrets.AZURE_ID }}@${{ secrets.AZURE_IP }} << 'EOF'
-            cd production/next-cda-devops
+            cd production/CesiZenWebApp
             git fetch --all
             git checkout develop
             git pull origin develop
