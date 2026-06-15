@@ -55,6 +55,22 @@ jobs:
           path: frontend/node_modules
           key: ${{ runner.os }}-frontend-${{ hashFiles('frontend/package-lock.json') }}
 
+  lint_api:
+    runs-on: ubuntu-latest
+    needs: build_api
+    steps:
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+      - uses: actions/checkout@v6
+      - name: Récupération du cache
+        uses: actions/cache/restore@v5
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-api-${{ hashFiles('package-lock.json') }}
+          fail-on-cache-miss: 'true'
+      - run: npx tsc --noEmit
+
   lint-frontend:
     runs-on: ubuntu-latest
     needs: build_frontend
