@@ -134,7 +134,7 @@ jobs:
           ssh ${{ secrets.AZURE_ID }}@${{ secrets.AZURE_IP }} << 'EOF'
             cd production/CesiZenWebApp
             git fetch --all
-            git checkout develop
-            git pull origin develop
+            git checkout main
+            git pull origin main
             docker compose -f compose.prod.yaml up -d --pull always
           EOF
