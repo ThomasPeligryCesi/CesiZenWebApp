@@ -25,6 +25,7 @@ jobs:
         with:
           node-version: 24
       - run: npm audit --audit-level=high
+      - run: cd frontend && npm audit --audit-level=high
 
   build_api:
     runs-on: ubuntu-latest
