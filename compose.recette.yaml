@@ -4,7 +4,7 @@ services:
     env_file:
       - .env
     ports:
-      - "${DOCKER_DATABASE_PORT:-5432}:5432"
+      - "5433:5432"
     environment:
       POSTGRES_DB: ${DOCKER_DATABASE_NAME}
       POSTGRES_USER: ${DOCKER_DATABASE_USERNAME}
@@ -26,7 +26,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "3000:3000"
+      - "3001:3000"
     env_file:
       - .env
     environment:
@@ -42,7 +42,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
-      - "80:80"
+      - "8080:80"
     depends_on:
       - backend
 
