@@ -17,12 +17,24 @@ model User {
   id       String @id @default(uuid()) @db.Uuid
   email    String @unique
   password String
-  role     String
-  state    Int
+  role            String
+  state           Int
+  lastConnexion   DateTime?
 
   articles            Article[]
   favoris             FavoriteArticles[]
   favorisExercices    FavoriteExercises[]
+  refreshTokens       RefreshToken[]
+  resetTokens         ResetToken[]
+}
+
+model RefreshToken {
+  id        String   @id @default(uuid()) @db.Uuid
+  token     String   @unique
+  userId    String   @db.Uuid
+  expiresAt DateTime
+
+  user User @relation(fields: [userId], references: [id])
 }
 
 model Article {
@@ -52,8 +64,6 @@ model FavoriteArticles {
 model BreathingExercise {
   id          String  @id @default(uuid()) @db.Uuid
   name        String
-  imgUrl      String?
-  videoUrl    String?
   duration    Int
   benefits    String?
   level       Int
@@ -71,4 +81,15 @@ model FavoriteExercises {
   exercise BreathingExercise @relation(fields: [exerciseId], references: [id])
 
   @@id([userId, exerciseId])
+}
+
+model ResetToken {
+  id        String   @id @default(uuid()) @db.Uuid
+  token     String   @unique
+  userId    String   @db.Uuid
+  used      Boolean  @default(false)
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+
+  user User @relation(fields: [userId], references: [id])
 }

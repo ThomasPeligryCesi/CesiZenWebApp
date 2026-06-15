@@ -8,8 +8,8 @@ export const  create = async (req: Request, res: Response, next: NextFunction) =
         if( !result.success ) {
             return res.status(400).json({ error: "Validation failed", issues: result.error.issues });
         }
-        const {name, imgUrl, videoUrl, duration, benefits, level, description, steps } = result.data;
-        const exercise = await exerciseService.createExercise({name, imgUrl, videoUrl, duration, benefits, level, description, steps });
+        const {name, duration, benefits, level, description, steps } = result.data;
+        const exercise = await exerciseService.createExercise({name, duration, benefits, level, description, steps });
         res.status(201).json(exercise);
     } catch (error) {
             next(error);
@@ -41,8 +41,8 @@ export const update = async  (req: Request<{id: string}>, res: Response, next: N
         if( !result.success ) {
             return res.status(400).json({ error: "Validation failed", issues: result.error.issues });
         }
-        const {name, imgUrl, videoUrl, duration, benefits, level, description, steps  } = result.data;
-        const exercise = await exerciseService.updateExercise({name, imgUrl, videoUrl, duration, benefits, level, description, steps }, req.params.id )
+        const {name, duration, benefits, level, description, steps  } = result.data;
+        const exercise = await exerciseService.updateExercise({name, duration, benefits, level, description, steps }, req.params.id )
         res.status(200).json(exercise)
     } catch(error){
         next(error)
@@ -63,7 +63,10 @@ export const addFavorite = async (req: Request<{exerciseId: string}>, res: Respo
     try{
         const exercise = await exerciseService.addFavorite(res.locals.userId, req.params.exerciseId)
         res.status(201).send();
-    } catch (error){
+    } catch (error: any){
+        if (error?.code === "P2002") {
+            return res.status(409).json({ error: "Exercice déjà en favori" });
+        }
         next(error)
     }
 }
