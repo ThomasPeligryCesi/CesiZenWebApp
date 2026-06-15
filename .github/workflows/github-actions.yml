@@ -69,6 +69,7 @@ jobs:
           path: node_modules
           key: ${{ runner.os }}-api-${{ hashFiles('package-lock.json') }}
           fail-on-cache-miss: 'true'
+      - run: npx prisma generate
       - run: npx tsc --noEmit
 
   lint-frontend:
