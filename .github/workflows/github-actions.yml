@@ -35,14 +35,11 @@ jobs:
         with:
           node-version: 24
       - run: npm ci
-      - run: npm run build
       - name: Sauvegarde du cache
         uses: actions/cache/save@v5
         with:
-          path: |
-            node_modules
-            frontend/node_modules
-          key: ${{ runner.os }}-node2-${{ hashFiles('**/package-lock.json') }}
+          path: node_modules
+          key: ${{ runner.os }}-api-${{ hashFiles('package-lock.json') }}
 
   build_frontend:
     runs-on: ubuntu-latest
