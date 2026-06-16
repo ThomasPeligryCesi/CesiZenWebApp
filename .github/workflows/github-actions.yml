@@ -71,6 +71,7 @@ jobs:
           fail-on-cache-miss: 'true'
       - run: npx prisma generate
       - run: npx tsc --noEmit
+      - run: npm run lint
 
   lint-frontend:
     runs-on: ubuntu-latest

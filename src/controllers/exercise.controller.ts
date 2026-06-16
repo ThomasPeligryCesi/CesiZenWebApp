@@ -52,7 +52,7 @@ export const update = async  (req: Request<{id: string}>, res: Response, next: N
 
 export const remove = async (req: Request<{id: string}>, res: Response, next: NextFunction) => {
     try{
-        const exercise = await exerciseService.deleteExercise(req.params.id)
+        await exerciseService.deleteExercise(req.params.id)
         res.status(204).send()
     } catch (error){
         next(error)
@@ -61,7 +61,7 @@ export const remove = async (req: Request<{id: string}>, res: Response, next: Ne
 
 export const addFavorite = async (req: Request<{exerciseId: string}>, res: Response, next: NextFunction) => {
     try{
-        const exercise = await exerciseService.addFavorite(res.locals.userId, req.params.exerciseId)
+        await exerciseService.addFavorite(res.locals.userId, req.params.exerciseId)
         res.status(201).send();
     } catch (error: any){
         if (error?.code === "P2002") {
@@ -73,7 +73,7 @@ export const addFavorite = async (req: Request<{exerciseId: string}>, res: Respo
 
 export const removeFavorite = async (req: Request<{exerciseId: string}>, res: Response, next: NextFunction) => {
     try{
-        const exercise = await exerciseService.removeFavorite(res.locals.userId, req.params.exerciseId)
+        await exerciseService.removeFavorite(res.locals.userId, req.params.exerciseId)
         res.status(204).send();
     } catch (error){
         next(error)
