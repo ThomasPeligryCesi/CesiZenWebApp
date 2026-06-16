@@ -137,6 +137,7 @@ jobs:
             git checkout developp
             git pull origin developp
             docker ps -q --filter "publish=3001" | xargs -r docker rm -f
+            docker ps -q --filter "publish=5433" | xargs -r docker rm -f
             docker compose -p recette -f compose.recette.yaml down --remove-orphans
             docker compose -p recette -f compose.recette.yaml up -d --build --pull always
           EOF
