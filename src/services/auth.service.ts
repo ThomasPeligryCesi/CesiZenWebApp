@@ -1,12 +1,11 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import crypto, { hash } from "crypto";
+import crypto from "crypto";
 import prisma from "../config/prisma";
 import { sendPasswordResetEmail } from "./email.service";
 
 const JWT_SECRET = process.env.JWT_SECRET as string;
 const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || "5m";
-const REFRESH_SECRET = process.env.REFRESH_SECRET as string;
 const REFRESH_EXPIRES_IN = process.env.REFRESH_EXPIRES_IN || "60d";
 
 function generateAccessToken(userId: string, role: string) {

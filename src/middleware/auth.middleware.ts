@@ -18,7 +18,7 @@ import jwt from 'jsonwebtoken';
         res.locals.userId = decoded.userId;
         res.locals.role = decoded.role;
         next();
-    } catch (error) {
+    } catch {
         return res.status(401).json({message: 'Invalid token'});
     }
 }

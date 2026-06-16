@@ -26,7 +26,7 @@ app.use("/api/articles", articleRoutes);
 app.use("/api/exercises", exerciseRoutes);
 app.use("/api/users", userRoutes);
 
-app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+app.use((err: Error, req: Request, res: Response, _next: NextFunction) => {
   console.error(err.stack);
   res.status(500).json({ error: "Erreur interne du serveur", "status": 500});
 });
