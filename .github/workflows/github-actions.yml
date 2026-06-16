@@ -135,7 +135,7 @@ jobs:
             git fetch --all
             git checkout developp
             git pull origin developp
-            docker compose -f compose.recette.yaml up -d --build --pull always
+            docker compose -p recette -f compose.recette.yaml up -d --build --pull always
           EOF
 
   deploy-prod:
@@ -156,5 +156,5 @@ jobs:
             git fetch --all
             git checkout main
             git pull origin main
-            docker compose -f compose.prod.yaml up -d --build --pull always
+            docker compose -p production -f compose.prod.yaml up -d --build --pull always
           EOF
