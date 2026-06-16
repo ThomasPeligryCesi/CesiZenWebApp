@@ -144,8 +144,8 @@ jobs:
             docker ps -q --filter "publish=3001" | xargs -r docker rm -f
             docker ps -q --filter "publish=5433" | xargs -r docker rm -f
             docker compose -p recette -f compose.recette.yaml down --remove-orphans
-            BACKEND_IMAGE="ghcr.io/${OWNER}/cesizenwebapp:developp" \
-              docker compose -p recette -f compose.recette.yaml up -d --pull always
+            export BACKEND_IMAGE="ghcr.io/${OWNER}/cesizenwebapp:developp"
+            docker compose -p recette -f compose.recette.yaml up -d --pull always
             docker logout ghcr.io
           EOF
 
@@ -173,7 +173,7 @@ jobs:
             git checkout main
             git pull origin main
             docker compose -p production -f compose.prod.yaml down --remove-orphans
-            BACKEND_IMAGE="ghcr.io/${OWNER}/cesizenwebapp:main" \
-              docker compose -p production -f compose.prod.yaml up -d --pull always
+            export BACKEND_IMAGE="ghcr.io/${OWNER}/cesizenwebapp:main"
+            docker compose -p production -f compose.prod.yaml up -d --pull always
             docker logout ghcr.io
           EOF
