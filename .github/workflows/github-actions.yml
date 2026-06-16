@@ -136,6 +136,7 @@ jobs:
             git fetch --all
             git checkout developp
             git pull origin developp
+            docker compose -p recette -f compose.recette.yaml down --remove-orphans
             docker compose -p recette -f compose.recette.yaml up -d --build --pull always
           EOF
 
