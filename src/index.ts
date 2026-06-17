@@ -21,6 +21,8 @@ import articleRoutes from "./routes/article.route";
 import exerciseRoutes from "./routes/exercise.route";
 import userRoutes from "./routes/user.route";
 
+app.get("/api/health", (_req, res) => res.json({ status: "ok" }));
+
 app.use("/api/auth", authRoutes);
 app.use("/api/articles", articleRoutes);
 app.use("/api/exercises", exerciseRoutes);
