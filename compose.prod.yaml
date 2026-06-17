@@ -3,8 +3,6 @@ services:
     image: postgres:16.1
     env_file:
       - .env
-    ports:
-      - "${DOCKER_DATABASE_PORT:-5432}:5432"
     environment:
       POSTGRES_DB: ${DOCKER_DATABASE_NAME}
       POSTGRES_USER: ${DOCKER_DATABASE_USERNAME}
