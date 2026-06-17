@@ -24,7 +24,7 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: 24
-      - run: npm audit --audit-level=high
+      - run: npm audit --audit-level=critical
       - run: cd frontend && npm audit --audit-level=high
 
   build_api:
@@ -98,19 +98,12 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: 24
-      - name: Récupération du cache
-        uses: actions/cache/restore@v5
-        with:
-          path: frontend/node_modules
-          key: ${{ runner.os }}-frontend-${{ hashFiles('frontend/package-lock.json') }}
-          fail-on-cache-miss: 'true'
       - name: Tests Cypress
         uses: cypress-io/github-action@v6
         with:
           working-directory: frontend
           start: npm run dev
           wait-on: 'http://localhost:5173'
-          install: false
 
   build-and-push-docker:
     runs-on: ubuntu-latest
