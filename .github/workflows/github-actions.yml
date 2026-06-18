@@ -116,7 +116,9 @@ jobs:
       packages: write
     steps:
       - name: Set lowercase owner
-        run: echo "OWNER=$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+        run: |
+          echo "OWNER=$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+          echo "SHORT_SHA=${GITHUB_SHA::7}" >> $GITHUB_ENV
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v4
         with:
@@ -134,6 +136,7 @@ jobs:
           tags: |
             ghcr.io/${{ env.OWNER }}/cesizenwebapp:latest
             ghcr.io/${{ env.OWNER }}/cesizenwebapp:${{ github.ref_name }}
+            ghcr.io/${{ env.OWNER }}/cesizenwebapp:${{ env.SHORT_SHA }}
 
   deploy-recette:
     runs-on: ubuntu-latest
