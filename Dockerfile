@@ -1,4 +1,5 @@
 # ─── Stage 1 : build du frontend ─────────────────────────────────────────────
+# Utilisé pour construire le frontend et générer les fichiers statiques.
 FROM node:20-alpine AS frontend-builder
 WORKDIR /app/frontend
 COPY frontend/package*.json ./
@@ -7,6 +8,7 @@ COPY frontend/ ./
 RUN npm run build
 
 # ─── Stage 2 : vérification des types du backend ─────────────────────────────
+# Ne garde aucun artefact de build, juste pour vérifier les types TypeScript
 FROM node:20-alpine AS backend-builder
 WORKDIR /app
 COPY package*.json ./
@@ -19,6 +21,8 @@ COPY src/ ./src/
 RUN npx tsc --noEmit
 
 # ─── Stage 3 : runner ────────────────────────────────────────────────────────
+# Utilisé pour exécuter l'application en production. Ne contient que les fichiers nécessaires
+# pour optimiser le poids de l'image 
 FROM node:20-alpine AS runner
 ENV NODE_ENV=production
 WORKDIR /app
