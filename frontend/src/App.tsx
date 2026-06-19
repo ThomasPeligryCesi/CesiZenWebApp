@@ -10,7 +10,7 @@ import ResetPassword from './pages/ResetPassword';
 function Nav({ onLogout }: { onLogout: () => void }) {
   return (
     <nav>
-      <strong>CesiZen Backoffice avec une erreur</strong>
+      <strong>CesiZen Backoffice</strong>
       <Link to="/articles">Articles</Link>
       <Link to="/exercises">Exercices</Link>
       <Link to="/users">Utilisateurs</Link>
